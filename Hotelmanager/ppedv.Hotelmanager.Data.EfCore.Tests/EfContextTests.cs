@@ -1,5 +1,10 @@
+using AutoFixture;
+using AutoFixture.Kernel;
 using ppedv.Hotelmanager.Model;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Xunit;
 
 namespace ppedv.Hotelmanager.Data.EfCore.Tests
@@ -64,6 +69,43 @@ namespace ppedv.Hotelmanager.Data.EfCore.Tests
                 var loaded = con.Find<Gast>(gast.Id);
                 Assert.Null(loaded);
             }
+        }
+
+
+        [Fact]
+        public void Can_insert_and_read_Zimmer_with_AutoFixture()
+        {
+            var fix = new Fixture();
+            fix.Behaviors.Add(new OmitOnRecursionBehavior());
+            fix.Customizations.Add(new PropertyNameOmitter(nameof(Entity.Id)));
+            var zimmer = fix.Create<Zimmer>();
+
+            using (var con = new EfContext()) 
+            {
+                con.Add(zimmer);
+                con.SaveChanges();
+            }
+        }
+
+
+    }
+
+    internal class PropertyNameOmitter : ISpecimenBuilder
+    {
+        private readonly IEnumerable<string> names;
+
+        internal PropertyNameOmitter(params string[] names)
+        {
+            this.names = names;
+        }
+
+        public object Create(object request, ISpecimenContext context)
+        {
+            var propInfo = request as PropertyInfo;
+            if (propInfo != null && names.Contains(propInfo.Name))
+                return new OmitSpecimen();
+
+            return new NoSpecimen();
         }
     }
 }
