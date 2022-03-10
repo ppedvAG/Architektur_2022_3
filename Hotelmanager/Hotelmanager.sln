@@ -5,6 +5,10 @@ VisualStudioVersion = 17.2.32210.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ppedv.Hotelmanager.Model", "ppedv.Hotelmanager.Model\ppedv.Hotelmanager.Model.csproj", "{A74CC4B8-9820-4291-8365-4D0363DA9CEC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ppedv.Hotelmanager.Data.EfCore", "ppedv.Hotelmanager.Data.EfCore\ppedv.Hotelmanager.Data.EfCore.csproj", "{DA8F5A6C-22E3-40E8-9683-6320007F9600}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ppedv.Hotelmanager.Data.EfCore.Tests", "ppedv.Hotelmanager.Data.EfCore.Tests\ppedv.Hotelmanager.Data.EfCore.Tests.csproj", "{AE6978F4-81A4-44C5-A8E1-BAFF91DB46B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{A74CC4B8-9820-4291-8365-4D0363DA9CEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A74CC4B8-9820-4291-8365-4D0363DA9CEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A74CC4B8-9820-4291-8365-4D0363DA9CEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA8F5A6C-22E3-40E8-9683-6320007F9600}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA8F5A6C-22E3-40E8-9683-6320007F9600}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA8F5A6C-22E3-40E8-9683-6320007F9600}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA8F5A6C-22E3-40E8-9683-6320007F9600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE6978F4-81A4-44C5-A8E1-BAFF91DB46B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE6978F4-81A4-44C5-A8E1-BAFF91DB46B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE6978F4-81A4-44C5-A8E1-BAFF91DB46B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE6978F4-81A4-44C5-A8E1-BAFF91DB46B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
