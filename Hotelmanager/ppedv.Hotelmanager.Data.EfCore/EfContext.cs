@@ -16,6 +16,7 @@ namespace ppedv.Hotelmanager.Data.EfCore
         public EfContext(string conString = "Server=(localdb)\\mssqllocaldb;Database=Hotelmanager_Dev;Trusted_Connection=true")
         {
             this._conString = conString;
+            this.Database.Migrate();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
