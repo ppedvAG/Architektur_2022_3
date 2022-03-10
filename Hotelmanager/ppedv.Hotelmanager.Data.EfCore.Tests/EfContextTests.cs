@@ -1,5 +1,6 @@
 using AutoFixture;
 using AutoFixture.Kernel;
+using FluentAssertions;
 using ppedv.Hotelmanager.Model;
 using System;
 using System.Collections.Generic;
@@ -67,7 +68,8 @@ namespace ppedv.Hotelmanager.Data.EfCore.Tests
             using (var con = new EfContext()) //check DELETE
             {
                 var loaded = con.Find<Gast>(gast.Id);
-                Assert.Null(loaded);
+                //Assert.Null(loaded);
+                loaded.Should().BeNull();
             }
         }
 
@@ -80,14 +82,18 @@ namespace ppedv.Hotelmanager.Data.EfCore.Tests
             fix.Customizations.Add(new PropertyNameOmitter(nameof(Entity.Id)));
             var zimmer = fix.Create<Zimmer>();
 
-            using (var con = new EfContext()) 
+            using (var con = new EfContext())
             {
                 con.Add(zimmer);
-                con.SaveChanges();
+                var rows = con.SaveChanges();
+            }
+
+            using (var con = new EfContext())
+            {
+                var loaded = con.Find<Zimmer>(zimmer.Id);
+                loaded.Should().BeEquivalentTo(zimmer, c => c.IgnoringCyclicReferences());
             }
         }
-
-
     }
 
     internal class PropertyNameOmitter : ISpecimenBuilder
