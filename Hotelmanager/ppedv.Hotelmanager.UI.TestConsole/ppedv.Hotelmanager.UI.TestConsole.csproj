@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ppedv.Hotelmanager.Contracts\ppedv.Hotelmanager.Contracts.csproj" />
     <ProjectReference Include="..\ppedv.Hotelmanager.Data.EfCore\ppedv.Hotelmanager.Data.EfCore.csproj" />
     <ProjectReference Include="..\ppedv.Hotelmanager.Logic\ppedv.Hotelmanager.Logic.csproj" />

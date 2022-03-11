@@ -12,8 +12,15 @@ namespace ppedv.Hotelmanager.Logic.Tests
         [Fact]
         public void GetHotelWithMostBeds_no_Hotels_should_return_null()
         {
-            var mock = new Mock<IRepository>();
-            var core = new Core(mock.Object);
+
+            var repoMock = new Mock<IHotelRepository>();
+            var uowMock = new Mock<IUnitOfWork>();
+
+            uowMock.Setup(x => x.GetRepository<Hotel>()).Returns(repoMock.Object);
+            //ODER
+            uowMock.Setup(x => x.HotelRepository).Returns(repoMock.Object);
+
+            var core = new Core(uowMock.Object);
 
             var result = core.GetHotelWithMostBeds();
 
@@ -23,8 +30,14 @@ namespace ppedv.Hotelmanager.Logic.Tests
         [Fact]
         public void GetHotelWithMostBeds_3_Hotels_h2_has_more_beds_moq()
         {
-            var mock = new Mock<IRepository>();
-            mock.Setup(x => x.Query<Hotel>()).Returns(() =>
+            var repoMock = new Mock<IHotelRepository>();
+            var uowMock = new Mock<IUnitOfWork>();
+
+            uowMock.Setup(x => x.GetRepository<Hotel>()).Returns(repoMock.Object);
+            //ODER
+            uowMock.Setup(x => x.HotelRepository).Returns(repoMock.Object);
+
+            repoMock.Setup(x => x.Query()).Returns(() =>
             {
                 var h1 = new Hotel() { Name = "h1" };
                 h1.Zimmer.Add(new Zimmer() { AnzBetten = 4 });
@@ -37,7 +50,7 @@ namespace ppedv.Hotelmanager.Logic.Tests
 
                 return new[] { h1, h2, h3 }.AsQueryable();
             });
-            var core = new Core(mock.Object);
+            var core = new Core(uowMock.Object);
 
             var result = core.GetHotelWithMostBeds();
 
@@ -47,7 +60,7 @@ namespace ppedv.Hotelmanager.Logic.Tests
         [Fact]
         public void GetHotelWithMostBeds_3_Hotels_h2_has_more_beds()
         {
-            var core = new Core(new TestRepository());
+            var core = new Core(new TestUnitOfWork());
 
             var result = core.GetHotelWithMostBeds();
 
@@ -55,24 +68,56 @@ namespace ppedv.Hotelmanager.Logic.Tests
         }
     }
 
-    class TestRepository : IRepository
+    class TestUnitOfWork : IUnitOfWork
     {
-        public void Add<T>(T entity) where T : Model.Entity
+        public IHotelRepository HotelRepository => new HotelTestRepository();
+
+        public IBaseRepository<Buchung> BuchungenRepository => throw new System.NotImplementedException();
+
+        public IBaseRepository<Gast> GastRepository => throw new System.NotImplementedException();
+
+        public IBaseRepository<Zimmer> ZimmerRepository => throw new System.NotImplementedException();
+
+        public IBaseRepository<T> GetRepository<T>() where T : Entity
+        {
+            if (typeof(T) == typeof(Hotel))
+                return new HotelTestRepository() as IBaseRepository<T>;
+
+            throw new System.NotImplementedException();
+        }
+
+        public void SaveAll()
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+
+    class HotelTestRepository : TestRepository<Hotel>, IHotelRepository
+    {
+        public decimal GetHotelUmsatzberichtForYear(int year)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+
+    class TestRepository<T> : IBaseRepository<T> where T : Entity
+    {
+        public void Add(T entity)
         {
             throw new System.NotImplementedException();
         }
 
-        public void Delete<T>(T entity) where T : Model.Entity
+        public void Delete(T entity)
         {
             throw new System.NotImplementedException();
         }
 
-        public T GetById<T>(int id) where T : Model.Entity
+        public T GetById(int id)
         {
             throw new System.NotImplementedException();
         }
 
-        public IQueryable<T> Query<T>() where T : Model.Entity
+        public IQueryable<T> Query()
         {
             if (typeof(T) == typeof(Hotel))
             {
@@ -89,14 +134,10 @@ namespace ppedv.Hotelmanager.Logic.Tests
             }
 
             throw new System.NotImplementedException();
-        }
-
-        public void SaveAll()
-        {
             throw new System.NotImplementedException();
         }
 
-        public void Update<T>(T entity) where T : Model.Entity
+        public void Update(T entity)
         {
             throw new System.NotImplementedException();
         }

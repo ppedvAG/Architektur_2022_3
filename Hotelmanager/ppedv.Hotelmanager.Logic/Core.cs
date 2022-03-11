@@ -8,17 +8,23 @@ namespace ppedv.Hotelmanager.Logic
 {
     public class Core
     {
-        public IRepository Repository { get; }
+        public IUnitOfWork UnitOfWork { get; }
 
-        public Core(IRepository repository)
+        public Core(IUnitOfWork uow)
         {
-            Repository = repository;
+            UnitOfWork = uow;
         }
 
 
         public Hotel GetHotelWithMostBeds()
         {
-            return Repository.Query<Hotel>()
+            return UnitOfWork.GetRepository<Hotel>().Query()
+                             .OrderByDescending(x => x.Zimmer.Sum(y => y.AnzBetten))
+                             .FirstOrDefault();
+            
+            //ODER
+
+            return UnitOfWork.HotelRepository.Query()
                              .OrderByDescending(x => x.Zimmer.Sum(y => y.AnzBetten))
                              .FirstOrDefault();
         }
