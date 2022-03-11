@@ -18,7 +18,9 @@ namespace ppedv.Hotelmanager.Logic
 
         public Hotel GetHotelWithMostBeds()
         {
-            return Repository.Query<Hotel>().OrderBy(x => x.Zimmer.Sum(y => y.AnzBetten)).FirstOrDefault();
+            return Repository.Query<Hotel>()
+                             .OrderByDescending(x => x.Zimmer.Sum(y => y.AnzBetten))
+                             .FirstOrDefault();
         }
 
         public IEnumerable<Zimmer> GetAvailableRooms(Hotel hotel, DateTime day)
