@@ -8,12 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\" />
+    <PackageReference Include="AdonisUI" Version="1.17.1" />
+    <PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AdonisUI" Version="1.17.1" />
-    <PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.1" />
+    <ProjectReference Include="..\ppedv.Hotelmanager.Contracts\ppedv.Hotelmanager.Contracts.csproj" />
+    <ProjectReference Include="..\ppedv.Hotelmanager.Data.EfCore\ppedv.Hotelmanager.Data.EfCore.csproj" />
+    <ProjectReference Include="..\ppedv.Hotelmanager.Logic\ppedv.Hotelmanager.Logic.csproj" />
+    <ProjectReference Include="..\ppedv.Hotelmanager.Model\ppedv.Hotelmanager.Model.csproj" />
   </ItemGroup>
 
 </Project>

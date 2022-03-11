@@ -3,9 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ppedv.Hotelmanager.UI.WPF.Views"
+             xmlns:local="clr-namespace:ppedv.Hotelmanager.UI.WPF.Views" xmlns:viewmodels="clr-namespace:ppedv.Hotelmanager.UI.WPF.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <viewmodels:ZimmerWindowViewModel/>
+    </UserControl.DataContext>
     <DockPanel>
         <Grid DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
@@ -15,8 +18,9 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button>💾 Speichern</Button>
-            <Button Grid.Column="1">✳️ Neu</Button>
+            <Button Command="{Binding NewCommand}" Grid.Column="1">✳️ Neu</Button>
             <Button Grid.Column="2">🗑️ Löschen</Button>
+            <TextBlock Grid.Column="3" Text="{Binding ZimmerInfo}"/>
         </Grid>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -25,7 +29,9 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <DataGrid DockPanel.Dock="Left"/>
+            <DataGrid ItemsSource="{Binding ZimmerList}" 
+                      SelectedItem="{Binding SelectedZimmer}" 
+                      DockPanel.Dock="Left"/>
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"/>
             <Grid Grid.Column="2">
                 <Grid.ColumnDefinitions>
@@ -43,10 +49,10 @@
                 <ComboBox Grid.Column="1">Hotel ##</ComboBox>
 
                 <Label Grid.Row="1">Nummer</Label>
-                <TextBox Grid.Row="1" Grid.Column="1"></TextBox>
+                <TextBox Text="{Binding SelectedZimmer.Nummer}" Grid.Row="1" Grid.Column="1"/>
 
                 <Label Grid.Row="2">Stockwerk</Label>
-                <TextBox Grid.Row="2" Grid.Column="1"></TextBox>
+                <TextBox Text="{Binding SelectedZimmer.Stockwerk}" Grid.Row="2" Grid.Column="1"/>
 
                 <GroupBox Header="Buchungen" Grid.Row="3" Grid.ColumnSpan="2">
                     <ListBox/>
