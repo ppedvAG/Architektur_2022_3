@@ -1,5 +1,5 @@
-﻿using ppedv.Hotelmanager.Model;
-using ppedv.Hotelmanager.Model.Contracts;
+﻿using ppedv.Hotelmanager.Contracts;
+using ppedv.Hotelmanager.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

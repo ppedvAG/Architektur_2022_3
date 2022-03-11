@@ -1,11 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ppedv.Hotelmanager.Contracts\ppedv.Hotelmanager.Contracts.csproj" />
     <ProjectReference Include="..\ppedv.Hotelmanager.Model\ppedv.Hotelmanager.Model.csproj" />
   </ItemGroup>
 

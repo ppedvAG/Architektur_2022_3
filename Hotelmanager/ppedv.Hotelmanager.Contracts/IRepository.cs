@@ -1,6 +1,7 @@
-﻿using System.Linq;
+﻿using ppedv.Hotelmanager.Model;
+using System.Linq;
 
-namespace ppedv.Hotelmanager.Model.Contracts
+namespace ppedv.Hotelmanager.Contracts
 {
     public interface IRepository
     {

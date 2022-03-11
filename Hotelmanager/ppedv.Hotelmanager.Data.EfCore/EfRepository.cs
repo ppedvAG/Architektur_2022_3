@@ -1,6 +1,5 @@
-﻿using ppedv.Hotelmanager.Model;
-using ppedv.Hotelmanager.Model.Contracts;
-using System.Collections.Generic;
+﻿using ppedv.Hotelmanager.Contracts;
+using ppedv.Hotelmanager.Model;
 using System.Linq;
 
 namespace ppedv.Hotelmanager.Data.EfCore

@@ -1,9 +1,9 @@
 using Xunit;
 using FluentAssertions;
-using ppedv.Hotelmanager.Model.Contracts;
 using System.Linq;
 using ppedv.Hotelmanager.Model;
 using Moq;
+using ppedv.Hotelmanager.Contracts;
 
 namespace ppedv.Hotelmanager.Logic.Tests
 {
