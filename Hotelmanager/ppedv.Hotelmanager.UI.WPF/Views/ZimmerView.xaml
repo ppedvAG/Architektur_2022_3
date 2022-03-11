@@ -17,9 +17,9 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button>💾 Speichern</Button>
+            <Button Command="{Binding SaveCommand}">💾 Speichern</Button>
             <Button Command="{Binding NewCommand}" Grid.Column="1">✳️ Neu</Button>
-            <Button Grid.Column="2">🗑️ Löschen</Button>
+            <Button Command="{Binding DeleteCommand}" Grid.Column="2">🗑️ Löschen</Button>
             <TextBlock Grid.Column="3" Text="{Binding ZimmerInfo}"/>
         </Grid>
         <Grid>

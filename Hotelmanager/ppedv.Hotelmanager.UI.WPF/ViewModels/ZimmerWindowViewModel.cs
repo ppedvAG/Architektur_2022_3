@@ -1,24 +1,24 @@
-﻿using ppedv.Hotelmanager.Logic;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using ppedv.Hotelmanager.Contracts;
+using ppedv.Hotelmanager.Logic;
 using ppedv.Hotelmanager.Model;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ppedv.Hotelmanager.UI.WPF.ViewModels
 {
-    public class ZimmerWindowViewModel : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler? PropertyChanged;
 
-        public void OnProperty(string propName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
-        }
+    public class ZimmerWindowViewModel : ObservableObject
+    {
 
         public ObservableCollection<Zimmer> ZimmerList { get; set; }
+        //public ObservableCollection<ZimmerViewModeL> ZimmerList { get; set; } //todo
 
         private Zimmer selectedZimmer;
         public Zimmer SelectedZimmer
@@ -26,51 +26,61 @@ namespace ppedv.Hotelmanager.UI.WPF.ViewModels
             get => selectedZimmer;
             set
             {
-                selectedZimmer = value;
-                OnProperty(nameof(SelectedZimmer));
-                OnProperty(nameof(ZimmerInfo));
-                OnProperty(""); //update all
+                SetProperty(ref selectedZimmer, value);
+                OnPropertyChanged(nameof(ZimmerInfo));
             }
         }
 
-        Core core = new Core(new Data.EfCore.EfUnitOfWork());
+        //Core core = new Core(new Data.EfCore.EfUnitOfWork());
+        Core core = null;
+        private bool controlsEnabled = true;
 
         public string ZimmerInfo { get => $"Anzahl: {DateTime.Now:T}"; }
 
-        public ICommand NewCommand { get; set; }
+        public AsyncRelayCommand NewCommand { get; set; }
+        public ICommand SaveCommand { get; set; }
+        public ICommand DeleteCommand { get; set; }
 
         public ZimmerWindowViewModel()
         {
+            core = new Core(App.Current.Services.GetService<IUnitOfWork>());
             ZimmerList = new ObservableCollection<Zimmer>(core.UnitOfWork.GetRepository<Zimmer>().Query().ToList());
-            NewCommand = new NewCommand(() =>
+            NewCommand = new AsyncRelayCommand(CreateNewZimmer, () => ControlsEnabled);
+            SaveCommand = new RelayCommand(() => core.UnitOfWork.SaveAll(), () => ControlsEnabled);
+            DeleteCommand = new RelayCommand(() =>
             {
-                var nz = new Zimmer();
-                nz.Nummer = "NEU";
-                ZimmerList.Add(nz); 
+                Thread.Sleep(5000);
+
+                if (SelectedZimmer != null)
+                {
+
+                    core.UnitOfWork.ZimmerRepository.Delete(SelectedZimmer);
+                    ZimmerList.Remove(SelectedZimmer);
+                }
             });
+
         }
 
-    }
-
-    public class NewCommand : ICommand
-    {
-        private readonly Action action;
-
-        public event EventHandler? CanExecuteChanged;
-
-        public bool CanExecute(object? parameter)
+        public bool ControlsEnabled
         {
-            return true;
+            get => controlsEnabled; set
+            {
+                controlsEnabled = value;
+                NewCommand.NotifyCanExecuteChanged();
+            }
         }
-
-        public void Execute(object? parameter)
+        private async Task CreateNewZimmer()
         {
-            action.Invoke();
-        }
+            ControlsEnabled = false;
 
-        public NewCommand(Action action)
-        {
-            this.action = action;
+            //Thread.Sleep(5000);
+            await Task.Delay(5000);
+            var nz = new Zimmer();
+            nz.Nummer = "NEU";
+            ZimmerList.Add(nz);
+            core.UnitOfWork.ZimmerRepository.Add(nz);
+            ControlsEnabled = true;
+
         }
     }
 }
