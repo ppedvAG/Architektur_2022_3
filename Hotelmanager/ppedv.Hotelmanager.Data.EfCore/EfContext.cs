@@ -16,6 +16,16 @@ namespace ppedv.Hotelmanager.Data.EfCore
         public EfContext(string conString = "Server=(localdb)\\mssqllocaldb;Database=Hotelmanager_Dev;Trusted_Connection=true")
         {
             this._conString = conString;
+
+
+          
+            
+        }
+
+        public void ResetHotelValues(Hotel toReset)
+        {
+            this.Entry<Hotel>(toReset).CurrentValues.SetValues(this.Entry(new Hotel()).OriginalValues);
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
